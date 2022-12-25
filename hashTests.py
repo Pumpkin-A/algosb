@@ -11,16 +11,17 @@ import matplotlib.pyplot as plt
 def Research(hashTable):
     x = []
     y = []
-    diffrentSizes = [10000,20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000, 110000, 120000, 130000, 140000, 150000]
+    diffrentSizes = [1, 10000,20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000, 110000, 120000, 130000, 140000, 150000]
     for size in range (len(diffrentSizes)):
         newTable = HashTable(128, "LinearDecision")
         tic = time.perf_counter_ns()
         x.append(diffrentSizes[size])
         for i in range (diffrentSizes[size]):
-            newTable.Add(randrange(10000000000), str(randrange(10000000000))) #cредний случай
-            # hashTable.Add(i, str(i))
+            # newTable.Add(randrange(10000000000), str(randrange(10000000000))) #cредний случай
+            newTable.Add(i, str(i))
         toc = time.perf_counter_ns()
         timee = (toc - tic)/diffrentSizes[size]
+        # print(timee, diffrentSizes[size])
         y.append(timee)
 
 
@@ -28,12 +29,15 @@ def Research(hashTable):
     yy = []
     for size in range(len(diffrentSizes)):
         newTable1 = HashTable(128, "LinearDecision")
-        tictic = time.perf_counter_ns()
         xx.append(diffrentSizes[size])
         for i in range (diffrentSizes[size]):
-            newTable1.Add(randrange(10000000000), str(randrange(10000000000))) #cредний случай
-        newTable1.Add(123456789, 'ertyuio')
-        newTable1.find(123456789)
+            # newTable1.Add(randrange(10000000000), str(randrange(10000000000))) #cредний случай
+            newTable1.Add(i, str(i))
+        # newTable1.Add(123456789, 'ertyuio')
+
+        tictic = time.perf_counter_ns()
+        newTable1.find(randrange(diffrentSizes[size]))
+        # newTable1.find(123456789)
         toctoc = time.perf_counter_ns()
         newtime = (toctoc - tictic)/diffrentSizes[size]
         yy.append(newtime)
