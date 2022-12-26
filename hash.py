@@ -1,40 +1,56 @@
 #int - key, string - value
 
 class HashTable:
-    def __init__(self, sizeTable, currentCollisionsDecision):
+    def __init__(self, sizeTable, currentCollisionsDecision, func):
         self.buffer = [None for _ in range (sizeTable)]
         self.sizeTable = sizeTable
         self.loadFactor = 0
         self.collisionsDecisions = ["LinearDecision",
                                     "QuadraticDecision",
                                     "TwiceHashDecision"]
+        self.hashFunctions = ["TheWorstHashEVER",
+                            "SimpleHash"]
+        self.chosenFunc = func
         self.NameCurrentMethod = currentCollisionsDecision
         self.sumCollisions = 0
+        self.currentHashFunction = 0
 
 
     def print(self):
         print(self.buffer)
 
 
+    def hashFunction(self, key):
+        if self.chosenFunc == self.hashFunctions[0]:
+            return self.TheWorstHashEVER(key)
+        else:
+            return self.simpleHashing(key)
+
+
+
+    def TheWorstHashEVER(self, key):
+        return 66
+
+
     def simpleHashing(self, key):
         return key % self.sizeTable
 
 
-    # def secondHashing(self, key):
-    #     res = (key % (self.sizeTable - 1))
-    #     if res % 2 == 0:
-    #         res += 1
-    #     return res
-
-
     def subHash(self, key):
-        result = 0
-        x = self.sizeTable - 1
-        key = str(key)
-        for i in range(len(key)):
-            result = (x * result + int(key[i])) % self.sizeTable
-        result = (result * 2 + 1) % self.sizeTable
-        return result
+        res = (key % (self.sizeTable - 1))
+        if res % 2 == 0:
+            res += 1
+        return res
+
+
+    # def subHash(self, key):
+    #     result = 0
+    #     x = self.sizeTable - 1
+    #     key = str(key)
+    #     for i in range(len(key)):
+    #         result = (x * result + int(key[i])) % self.sizeTable
+    #     result = (result * 2 + 1) % self.sizeTable
+    #     return result
 
 
     def CurrentMethod(self, key, curHashingResult, i):
@@ -64,7 +80,7 @@ class HashTable:
 
 
     def Add(self, key, value):
-        curHashingResult = self.simpleHashing(key)
+        curHashingResult = self.hashFunction(key)
         pair = [key, value]
         for i in range(self.sizeTable):
             if self.buffer[curHashingResult]:
@@ -95,7 +111,7 @@ class HashTable:
 
 
     def find(self, key):  # return pair
-        curHashingResult = self.simpleHashing(key)
+        curHashingResult = self.hashFunction(key)
         ans = "string"
         for i in range(self.sizeTable):
             if self.buffer[curHashingResult]:
